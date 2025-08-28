@@ -1,0 +1,45 @@
+<div class="search-filters">
+    <h5 class="mb-3">🔍 Exercise Search</h5>
+    
+    <div class="row">
+        <CustomSelect 
+            Title="Muscle Group"
+            DefaultText="All Groups" 
+            Options="AvailableMuscles"
+            @bind-SelectedValue="SelectedMuscle" />
+
+        <CustomSelect 
+            Title="Exercise Type"
+            DefaultText="All Types" 
+            Options="AvailableTypes"
+            @bind-SelectedValue="SelectedType" />
+
+        <CustomSelect 
+            Title="Difficulty"
+            DefaultText="Any Level" 
+            Options="AvailableDifficulties"
+            @bind-SelectedValue="SelectedDifficulty" />
+    </div>
+    
+    <SearchButton 
+        IsLoading="IsLoading"
+        ButtonText="Find Exercises"
+        OnSearch="OnSearch" />
+</div>
+
+@code {
+    [Parameter] public string[]? AvailableMuscles { get; set; }
+    [Parameter] public string[]? AvailableTypes { get; set; }
+    [Parameter] public string[]? AvailableDifficulties { get; set; }
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public EventCallback OnSearch { get; set; }
+
+    [Parameter] public string SelectedMuscle { get; set; } = "";
+    [Parameter] public EventCallback<string> SelectedMuscleChanged { get; set; }
+
+    [Parameter] public string SelectedType { get; set; } = "";
+    [Parameter] public EventCallback<string> SelectedTypeChanged { get; set; }
+
+    [Parameter] public string SelectedDifficulty { get; set; } = "";
+    [Parameter] public EventCallback<string> SelectedDifficultyChanged { get; set; }
+}

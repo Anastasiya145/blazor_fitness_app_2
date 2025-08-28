@@ -1,0 +1,119 @@
+@page "/workouts"
+@page "/"
+@using FitnessApp.Models
+@using FitnessApp.Services
+@inject NinjaApiService ApiService
+@inject IJSRuntime JS
+
+<PageTitle>Fitness Application</PageTitle>
+
+<div class="container-fluid">
+    <PageHeader />
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <SearchFilters 
+                AvailableMuscles="availableMuscles"
+                AvailableTypes="availableTypes" 
+                AvailableDifficulties="availableDifficulties"
+                IsLoading="isLoading"
+                @bind-SelectedMuscle="selectedMuscle"
+                @bind-SelectedType="selectedType"
+                @bind-SelectedDifficulty="selectedDifficulty"
+                OnSearch="SearchWorkouts" />
+        </div>
+    </div>
+
+    <ExerciseList 
+        Workouts="workouts"
+        IsLoading="isLoading"
+        HasSearched="hasSearched"
+        OnShowDetails="ShowDetails" />
+</div>
+
+<ExerciseDetailsModal 
+    Workout="selectedWorkout"
+    OnClose="CloseDetails" />
+
+@code {
+    private Workout[]? workouts;
+    private Workout? selectedWorkout;
+    private string selectedMuscle = "";
+    private string selectedType = "";
+    private string selectedDifficulty = "";
+    private bool isLoading = false;
+    private bool hasSearched = false;
+
+    // Dynamic lists loaded from server
+    private string[]? availableMuscles;
+    private string[]? availableTypes;
+    private string[]? availableDifficulties;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load available options from server
+        await LoadFilterOptions();
+        
+        // Load popular exercises on page load
+        await SearchWorkouts();
+    }
+
+    private async Task LoadFilterOptions()
+    {
+        try
+        {
+            var muscleTask = ApiService.GetUniqueMusclesAsync();
+            var typeTask = ApiService.GetUniqueTypesAsync();
+            var difficultyTask = ApiService.GetUniqueDifficultiesAsync();
+
+            await Task.WhenAll(muscleTask, typeTask, difficultyTask);
+
+            availableMuscles = await muscleTask;
+            availableTypes = await typeTask;
+            availableDifficulties = await difficultyTask;
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("console.error", $"Error loading filters: {ex.Message}");
+        }
+    }
+
+    private async Task SearchWorkouts()
+    {
+        isLoading = true;
+        hasSearched = true;
+        StateHasChanged();
+
+        try
+        {
+            workouts = await ApiService.GetWorkoutsAsync(
+                string.IsNullOrEmpty(selectedMuscle) ? null : selectedMuscle,
+                string.IsNullOrEmpty(selectedType) ? null : selectedType,
+                string.IsNullOrEmpty(selectedDifficulty) ? null : selectedDifficulty);
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("alert", $"Error loading data: {ex.Message}");
+            workouts = Array.Empty<Workout>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ShowDetails(Workout workout)
+    {
+        selectedWorkout = workout;
+        StateHasChanged();
+    }
+
+    private void CloseDetails()
+    {
+        selectedWorkout = null;
+        StateHasChanged();
+    }
+}

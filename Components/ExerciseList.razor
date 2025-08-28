@@ -1,0 +1,30 @@
+@using FitnessApp.Models
+
+@if (Workouts != null && Workouts.Length > 0)
+{
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-3">Found Exercises: @Workouts.Length</h3>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var workout in Workouts)
+        {
+            <ExerciseCard Workout="workout" OnShowDetails="OnShowDetails" />
+        }
+    </div>
+}
+else if (HasSearched && !IsLoading)
+{
+    <div class="alert alert-info text-center">
+        <h4>No Exercises Found</h4>
+        <p>Try changing search parameters</p>
+    </div>
+}
+
+@code {
+    [Parameter] public Workout[]? Workouts { get; set; }
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public bool HasSearched { get; set; }
+    [Parameter] public EventCallback<Workout> OnShowDetails { get; set; }
+}

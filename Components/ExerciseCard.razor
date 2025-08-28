@@ -1,0 +1,50 @@
+@using FitnessApp.Models
+
+<div class="col-12 col-md-6 col-lg-4 mb-3">
+    <div class="exercise-card">
+        <div class="card-header">
+            <h5 class="card-title">💪 @Workout.Name</h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-2">
+                <strong>🎯 Target:</strong> 
+                <span class="badge bg-primary">@Workout.Muscle</span>
+            </div>
+            <div class="mb-2">
+                <strong>📋 Type:</strong> 
+                <span class="badge bg-info text-dark">@Workout.Type</span>
+            </div>
+            <div class="mb-2">
+                <strong>⚡ Level:</strong> 
+                <span class="badge @GetDifficultyBadgeClass(Workout.Difficulty)">@Workout.Difficulty</span>
+            </div>
+            @if (!string.IsNullOrEmpty(Workout.Equipment))
+            {
+                <div class="mb-3">
+                    <strong>🛠️ Equipment:</strong> @Workout.Equipment
+                </div>
+            }
+        </div>
+        <div class="card-footer text-center">
+            <button class="btn btn-outline-primary btn-sm w-100" @onclick="() => OnShowDetails.InvokeAsync(Workout)">
+                📖 View Details
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Workout Workout { get; set; } = null!;
+    [Parameter] public EventCallback<Workout> OnShowDetails { get; set; }
+
+    private string GetDifficultyBadgeClass(string difficulty)
+    {
+        return difficulty?.ToLower() switch
+        {
+            "beginner" => "bg-success",
+            "intermediate" => "bg-warning text-dark",
+            "expert" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}

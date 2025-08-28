@@ -1,0 +1,68 @@
+@using FitnessApp.Models
+
+@if (Workout != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Workout.Name</h5>
+                    <button type="button" class="btn-close" @onclick="() => OnClose.InvokeAsync()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <strong>Muscle Group:</strong><br>
+                            <span class="badge bg-secondary">@Workout.Muscle</span>
+                        </div>
+                        <div class="col-6">
+                            <strong>Type:</strong><br>
+                            <span class="badge bg-info text-dark">@Workout.Type</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <strong>Difficulty:</strong><br>
+                            <span class="badge @GetDifficultyBadgeClass(Workout.Difficulty)">@Workout.Difficulty</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Workout.Equipment))
+                        {
+                            <div class="col-6">
+                                <strong>Equipment:</strong><br>
+                                @Workout.Equipment
+                            </div>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(Workout.Instructions))
+                    {
+                        <div class="mb-3">
+                            <h6>Instructions:</h6>
+                            <div class="bg-light p-3 rounded">
+                                @Workout.Instructions
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="() => OnClose.InvokeAsync()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Workout? Workout { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private string GetDifficultyBadgeClass(string difficulty)
+    {
+        return difficulty?.ToLower() switch
+        {
+            "beginner" => "bg-success",
+            "intermediate" => "bg-warning text-dark",
+            "expert" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}

@@ -1,0 +1,16 @@
+@* Search Button Component *@
+<div class="text-center">
+    <button class="btn btn-primary btn-lg" @onclick="() => OnSearch.InvokeAsync()" disabled="@IsLoading">
+        @if (IsLoading)
+        {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        }
+        💪 @ButtonText
+    </button>
+</div>
+
+@code {
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Find Exercises";
+    [Parameter] public EventCallback OnSearch { get; set; }
+}

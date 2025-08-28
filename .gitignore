@@ -1,0 +1,38 @@
+# Build results
+bin/
+obj/
+publish/
+wwwroot/dist/
+wwwroot/node_modules/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets
+secrets.json
+appsettings.Development.json
+
+# Rider
+.idea/
+*.sln.iml
+
+# npm
+node_modules/
+
+# Others
+*.swp
+*.tmp

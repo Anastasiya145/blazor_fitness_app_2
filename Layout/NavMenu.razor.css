@@ -1,0 +1,162 @@
+/* Mobile-first navigation styles */
+.mobile-navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  max-width: 100%;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white !important;
+  text-decoration: none;
+}
+
+.mobile-menu-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.mobile-menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger-icon {
+  font-size: 1.5rem;
+}
+
+.mobile-nav-menu {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.mobile-nav-menu.collapse {
+  display: none;
+}
+
+.mobile-nav-menu .nav {
+  padding: 0.5rem 0;
+}
+
+.mobile-nav-menu .nav-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-nav-menu .nav-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-menu .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.mobile-nav-menu .nav-link:hover {
+  background-color: #f8f9fa;
+  color: #667eea;
+}
+
+.mobile-nav-menu .nav-link.active {
+  background-color: #667eea;
+  color: white;
+}
+
+.nav-icon {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Layout adjustments for mobile */
+.mobile-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.mobile-main {
+  flex: 1;
+  margin-top: 70px; /* Account for fixed header */
+  padding: 1rem;
+}
+
+.content {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mobile-main {
+    padding: 0.5rem;
+  }
+
+  .navbar-content {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-main {
+    padding: 0.25rem;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .mobile-nav-menu .nav-link {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Touch-friendly button sizes */
+@media (hover: none) and (pointer: coarse) {
+  .mobile-menu-toggle {
+    padding: 0.75rem;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .mobile-nav-menu .nav-link {
+    min-height: 48px;
+    padding: 1rem 1.5rem;
+  }
+}
